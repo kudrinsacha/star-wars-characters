@@ -91,7 +91,11 @@ buttonSearchById.onclick = function () {
                     result.homeworld = planet.name;
                 }
                 resultContainer.classList.add('active');
-                resultContainerHeader.innerHTML = `${result.title}`;
+                if (result.name) {
+                    resultContainerHeader.innerHTML = `${result.name}`;
+                } else {
+                    resultContainerHeader.innerHTML = `${result.title}`;
+                }
                 resultContainerContent.innerHTML = starWars.stringifyResult(result);
             })
             .catch(e => {
