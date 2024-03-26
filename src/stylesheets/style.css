@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Star Jedi";
-  src: url("../fonts/star-jedi.ttf");
+  src: url("../assets/fonts/star-jedi.ttf");
 }
 
 body * {
@@ -13,7 +13,7 @@ body {
   min-height: 100vh;
   max-height: 100vh;
   overflow-y: hidden;
-  background-image: url(../images/at-st.jpg);
+  background-image: url(../assets/images/at-st.jpg);
 }
 
 ul>li>ul>li {
@@ -60,10 +60,6 @@ ul>li>ul>li {
   -webkit-animation: spin 1s linear infinite;
   -moz-animation: spin 1s linear infinite;
   animation: spin 1s linear infinite;
-}
-
-.active {
-  visibility: initial!important;
 }
 
 @-moz-keyframes spin {
