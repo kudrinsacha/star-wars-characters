@@ -16,10 +16,10 @@
 // Поробуйте запустить их в своем скрипте search.ts.
 
 interface Data {
-  results: {_: [], homeworld: any, name: string}[];
+  results: {_: [], homeworld: any, name: string, detail: string}[];
 }
 
-const starWars = {
+const starWars: any = {
 
   // --- Search Methods ---
 
@@ -34,10 +34,19 @@ const starWars = {
 
   searchPlanets: (query: string) => {
     return new Promise((resolve) => {
-      fetch(`${query}`)
+      fetch(`https://swapi.py4e.com/api/planets/?search=${query}`)
         .then(response => response.json())
         .then(planets => resolve(planets))
         .catch(err => console.log('searchPlanets error: ', err));
+    });
+  },
+
+  searchPlanet: (query: string) => {
+    return new Promise((resolve) => {
+      fetch(`${query}`)
+          .then(response => response.json())
+          .then(planets => resolve(planets))
+          .catch(err => console.log('searchPlanets error: ', err));
     });
   },
 
@@ -52,7 +61,7 @@ const starWars = {
 
   // --- Get By Id Methods ---
 
-  getCharactersById: async (id: number) => (await (
+  getCharactersById: async <T extends Data>(id: number): Promise<T> => (await (
     await fetch(`https://swapi.py4e.com/api/people/${id}`)
   ).json()),
 
@@ -66,5 +75,27 @@ const starWars = {
 
   getFilmsById: async (id: number) => (await (
     await fetch(`https://swapi.py4e.com/api/films/${id}`)
-  ).json())
+  ).json()),
+
+  replaceResult: async (keys: string[], values: any, homeworld: string) => {
+    for (let i = keys.length - 1; i >= 0; i--) {
+      if ((keys[i] === 'films' && JSON.stringify(values[i]) !== '[]') || (keys[i] === 'species' && JSON.stringify(values[i]) !== '[]') || (keys[i] === 'vehicles' && JSON.stringify(values[i]) !== '[]') || (keys[i] === 'starships' && JSON.stringify(values[i]) !== '[]') || (keys[i] === 'residents' && JSON.stringify(values[i]) !== '[]') || (keys[i] === 'people' && JSON.stringify(values[i]) !== '[]') || (keys[i] === 'planets' && JSON.stringify(values[i]) !== '[]') || (keys[i] === 'characters' && JSON.stringify(values[i]) !== '[]')) {
+        const valuesChanged = values[i].join(',').replace(/,/g, '<br/>    ');
+        resultContainerContent.insertAdjacentHTML('afterbegin',
+            `<p>${keys[i]}:<br/>    ${valuesChanged}</p>`
+        );
+      } else if (keys[i] === 'homeworld' && values[i]) {
+        const homeWorld = await starWars.searchPlanet(homeworld) as {
+          name: string
+        }
+        resultContainerContent.insertAdjacentHTML('afterbegin',
+            `<p>${keys[i]}: ${homeWorld.name}</p>`
+        );
+      } else {
+        resultContainerContent.insertAdjacentHTML('afterbegin',
+            `<p>${keys[i].replace(/_/g, " ")}: ${values[i]}</p>`
+        );
+      }
+    }
+  }
 }
