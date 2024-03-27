@@ -11,6 +11,7 @@ const searchByIdInput = document.getElementById('byIdInput');
 const searchByIdBtn = document.getElementById('byIdBtn');
 const optionSearchById = document.getElementById('resource-id-select');
 function handleSearchByName() {
+    resultContainer.style.cssText += 'visibility: hidden';
     if (!searchByNameInput.value) {
         resultContainerHeader.textContent = 'Error';
         resultContainer.style.cssText += 'visibility: initial';
@@ -52,6 +53,7 @@ function handleSearchByName() {
     }
 }
 function handleSearchById() {
+    resultContainer.style.cssText += 'visibility: hidden';
     if (!searchByIdInput.value) {
         resultContainerHeader.textContent = 'Error';
         resultContainer.style.cssText += 'visibility: initial';
