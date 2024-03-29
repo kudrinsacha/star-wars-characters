@@ -68,16 +68,19 @@ namespace serverDTO {
         species: string[] | [];
     }
 
+    interface Error {
+        error: string;
+    }
 
     export type CharacterSearchByName = ResSearchByNameDTO<CharacterDTO>
     export type PlanetSearchByName = ResSearchByNameDTO<PlanetDTO>
     export type FoundPlanet = PlanetDTO;
     export type SpeciesSearchByName = ResSearchByNameDTO<SpeciesDTO>
 
-    export type CharacterSearchById = CharacterDTO;
-    export type PlanetSearchById = PlanetDTO;
-    export type SpeciesSearchById = SpeciesDTO;
-    export type FilmsSearchById = FilmsDTO;
+    export type CharacterSearchById = CharacterDTO & Error;
+    export type PlanetSearchById = PlanetDTO & Error;
+    export type SpeciesSearchById = SpeciesDTO & Error;
+    export type FilmsSearchById = FilmsDTO & Error;
     export interface StarWarsAPI{
         searchCharacters(query: string): Promise<CharacterSearchByName>;
         searchPlanets(query: string): Promise<PlanetSearchByName>;

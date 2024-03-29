@@ -37,7 +37,7 @@ namespace serverDTO {
                     break;
             }
             starWars[func](searchByNameInput.value)
-                .then(async (data) => {
+                .then((data) => {
                     spinnerLoading.style.cssText += 'visibility: hidden';
                     resultContainer.style.cssText += 'visibility: initial';
                     if (JSON.stringify(data.results) === '[]') {
@@ -52,9 +52,9 @@ namespace serverDTO {
 
                         if (func === 'searchCharacters' || func === 'searchSpecies') {
                             const currentData = data as (CharacterSearchByName | SpeciesSearchByName)
-                            await starWars.replaceResult(keys, values, resultContainerContent, currentData.results[0].homeworld);
+                            starWars.replaceResult(keys, values, resultContainerContent, currentData.results[0].homeworld);
                         } else {
-                            await starWars.replaceResult(keys, values, resultContainerContent);
+                            starWars.replaceResult(keys, values, resultContainerContent);
                         }
                     }
                 })
@@ -88,7 +88,7 @@ namespace serverDTO {
                     break;
             }
             starWars[func](+searchByIdInput.value)
-                .then(async (data) => {
+                .then((data) => {
                     spinnerLoading.style.cssText += 'visibility: hidden';
                     resultContainer.style.cssText += 'visibility: initial';
                     const keys = Object.keys(data)
@@ -107,11 +107,15 @@ namespace serverDTO {
 
                     resultContainerContent.textContent = '';
 
-                    if (func === 'getPlanetsById' || func === 'getFilmsById') {
-                        await starWars.replaceResult(keys, values, resultContainerContent);
+                    if (data.error) {
+                        resultContainerContent.textContent = `${data.error}`;
                     } else {
-                        const currentData = data as (CharacterSearchById | SpeciesSearchById);
-                        await starWars.replaceResult(keys, values, resultContainerContent, currentData.homeworld);
+                        if (func === 'getPlanetsById' || func === 'getFilmsById') {
+                            starWars.replaceResult(keys, values, resultContainerContent);
+                        } else {
+                            const currentData = data as (CharacterSearchById | SpeciesSearchById);
+                            starWars.replaceResult(keys, values, resultContainerContent, currentData.homeworld);
+                        }
                     }
                 })
         }
