@@ -91,29 +91,34 @@ var serverDTO;
                 .then((data) => {
                 spinnerLoading.style.cssText += 'visibility: hidden';
                 resultContainer.style.cssText += 'visibility: initial';
-                const keys = Object.keys(data);
-                const values = Object.values(data);
-                let name;
-                if (func === 'getFilmsById') {
-                    const currentData = data;
-                    name = currentData.title;
-                }
-                else {
-                    const currentData = data;
-                    name = currentData.name;
-                }
-                resultContainerHeader.textContent = `${name}`;
                 resultContainerContent.textContent = '';
-                if (data.error) {
+                if ("error" in data && data.error) {
+                    resultContainerHeader.textContent = `${data.name}`;
                     resultContainerContent.textContent = `${data.error}`;
                 }
                 else {
+                    const keys = Object.keys(data);
+                    const values = Object.values(data);
+                    let name;
+                    if (func === 'getFilmsById') {
+                        const currentData = data;
+                        if ("title" in currentData && currentData.title) {
+                            name = currentData.title;
+                        }
+                    }
+                    else {
+                        const currentData = data;
+                        name = currentData.name;
+                    }
+                    resultContainerHeader.textContent = `${name}`;
                     if (func === 'getPlanetsById' || func === 'getFilmsById') {
                         serverDTO.starWars.replaceResult(keys, values, resultContainerContent);
                     }
                     else {
                         const currentData = data;
-                        serverDTO.starWars.replaceResult(keys, values, resultContainerContent, currentData.homeworld);
+                        if ("homeworld" in currentData && currentData.homeworld) {
+                            serverDTO.starWars.replaceResult(keys, values, resultContainerContent, currentData.homeworld);
+                        }
                     }
                 }
             });

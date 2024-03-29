@@ -91,30 +91,34 @@ namespace serverDTO {
                 .then((data) => {
                     spinnerLoading.style.cssText += 'visibility: hidden';
                     resultContainer.style.cssText += 'visibility: initial';
-                    const keys = Object.keys(data)
-                    const values = Object.values(data)
-                    let name;
-
-                    if (func === 'getFilmsById') {
-                        const currentData = data as FilmsSearchById;
-                        name = currentData.title;
-                    } else {
-                        const currentData = data as CharacterSearchById | PlanetSearchById | SpeciesSearchById;
-                        name = currentData.name;
-                    }
-
-                    resultContainerHeader.textContent = `${name}`;
 
                     resultContainerContent.textContent = '';
 
-                    if (data.error) {
+                    if ("error" in data && data.error) {
+                        resultContainerHeader.textContent = `${data.name}`;
                         resultContainerContent.textContent = `${data.error}`;
                     } else {
+                        const keys = Object.keys(data)
+                        const values = Object.values(data)
+                        let name;
+
+                        if (func === 'getFilmsById') {
+                            const currentData = data as FilmsSearchById;
+                            if ("title" in currentData && currentData.title) {
+                                name = currentData.title;
+                            }
+                        } else {
+                            const currentData = data as CharacterSearchById | PlanetSearchById | SpeciesSearchById;
+                            name = currentData.name;
+                        }
+                        resultContainerHeader.textContent = `${name}`;
                         if (func === 'getPlanetsById' || func === 'getFilmsById') {
                             starWars.replaceResult(keys, values, resultContainerContent);
                         } else {
                             const currentData = data as (CharacterSearchById | SpeciesSearchById);
-                            starWars.replaceResult(keys, values, resultContainerContent, currentData.homeworld);
+                            if ("homeworld" in currentData && currentData.homeworld) {
+                                starWars.replaceResult(keys, values, resultContainerContent, currentData.homeworld);
+                            }
                         }
                     }
                 })
