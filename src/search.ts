@@ -33,7 +33,7 @@ namespace serverDTO {
                     func = 'searchSpecies'
                     break;
                 default:
-                    func = 'searchCharacters'
+                    func = '' as never;
                     break;
             }
             starWars[func](searchByNameInput.value)
@@ -84,7 +84,7 @@ namespace serverDTO {
                     func = 'getFilmsById'
                     break;
                 default:
-                    func = 'getCharactersById'
+                    func = '' as never;
                     break;
             }
             starWars[func](+searchByIdInput.value)

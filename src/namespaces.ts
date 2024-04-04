@@ -1,14 +1,14 @@
 namespace serverDTO {
-    interface ResSearchByNameDTO<optionDTO> {
+    interface ResSearchByNameDTO<OptionDTO> {
         count?: number;
-        next?: unknown;
-        previous?: unknown;
-        results: [optionDTO];
+        next?: number | null;
+        previous?: number | null;
+        results: [OptionDTO];
     }
 
     interface BaseDTO {
         name: string;
-        films: string[] | [];
+        films: string[];
         created: string;
         edited: string;
         url: string;
@@ -23,9 +23,9 @@ namespace serverDTO {
         birth_year: string;
         gender: string;
         homeworld: string;
-        species: string[] | [];
-        vehicles: string[] | [];
-        starships: string[] | [];
+        species: string[];
+        vehicles: string[];
+        starships: string[];
     }
 
     interface PlanetDTO extends BaseDTO{
@@ -37,8 +37,8 @@ namespace serverDTO {
         terrain: string;
         surface_water: string;
         population: string;
-        residents: string[] | [];
-        starships: string[] | [];
+        residents: string[];
+        starships: string[];
     }
 
     interface SpeciesDTO extends BaseDTO{
@@ -51,7 +51,7 @@ namespace serverDTO {
         average_lifespan: string;
         homeworld: string;
         language: string;
-        people: string[] | [];
+        people: string[];
     }
 
     type FilmsDTO = Omit<BaseDTO, 'name' | 'films'> & {
@@ -61,11 +61,11 @@ namespace serverDTO {
         director: string;
         producer: string;
         release_date: string;
-        characters: string[] | [];
-        planets: string[] | [];
-        starships: string[] | [];
-        vehicles: string[] | [];
-        species: string[] | [];
+        characters: string[];
+        planets: string[];
+        starships: string[];
+        vehicles: string[];
+        species: string[];
     }
 
     interface Error {
@@ -85,7 +85,7 @@ namespace serverDTO {
     export interface StarWarsAPI{
         searchCharacters(query: string): Promise<CharacterSearchByName>;
         searchPlanets(query: string): Promise<PlanetSearchByName>;
-        searchPlanet(query: string | undefined): Promise<FoundPlanet>;
+        searchPlanet(query?: string): Promise<FoundPlanet>;
         searchSpecies(query: string): Promise<SpeciesSearchByName>;
         getCharactersById(id: number): Promise<CharacterSearchById>;
         getPlanetsById(id: number): Promise<PlanetSearchById>;

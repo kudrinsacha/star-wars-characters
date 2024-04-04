@@ -33,7 +33,7 @@ var serverDTO;
                     func = 'searchSpecies';
                     break;
                 default:
-                    func = 'searchCharacters';
+                    func = '';
                     break;
             }
             serverDTO.starWars[func](searchByNameInput.value)
@@ -84,7 +84,7 @@ var serverDTO;
                     func = 'getFilmsById';
                     break;
                 default:
-                    func = 'getCharactersById';
+                    func = '';
                     break;
             }
             serverDTO.starWars[func](+searchByIdInput.value)
